@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="Zadatak2.demo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Zadatak2.demo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="1527">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="98*"/>
+            <ColumnDefinition Width="204*"/>
+            <ColumnDefinition Width="207*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="OdaberiSlike" Content="Select images" Margin="0,75,0,0" VerticalAlignment="Top" Height="40" Width="161" HorizontalAlignment="Center" Click="OdaberiSlike_Clicked"/>
+        <Button x:Name="PokreniObradu" Content="Run transformation" Margin="0,141,0,0" VerticalAlignment="Top" Height="41" Width="160" Click="PokreniObradu_Clicked" HorizontalAlignment="Center"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Column="2" Margin="0,0,-6,0">
+            <StackPanel x:Name="AssignmentsStackPanel" Grid.Column="3" Spacing="10" />
+        </ScrollViewer>
+        <Button x:Name="CameraButton" Margin="66,265,0,0" VerticalAlignment="Top" Width="160" Height="32" Click="CameraButton_Clicked">
+            <SymbolIcon Symbol="Camera"/>
+        </Button>
+        <CaptureElement x:Name="PreviewControl" Grid.Column="1" Margin="10,332,9,10"/>
+        <Button x:Name="FotografisiButton" Content="Fotografisi" Margin="0,380,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="160" IsEnabled="False" Click="FotografisiButton_Click" Height="33"/>
+        <ToggleSwitch x:Name="Kamera_switch" Header="Camera"  Margin="0,304,0,0" VerticalAlignment="Top" Width="158" Toggled="KameraToggled" Height="56" HorizontalAlignment="Center"/>
+        <Image x:Name="ImagePrewiev" HorizontalAlignment="Left" Height="266" Margin="-2,454,0,0" VerticalAlignment="Top" Width="266"/>
+        <UserControl HorizontalAlignment="Left" Margin="294,35,0,0" VerticalAlignment="Top" Height="262" Width="602" Grid.ColumnSpan="2">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+                <StackPanel Name="SelectedStackPanel"/>
+
+            </ScrollViewer>
+        </UserControl>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Text="Your selection will apppear here" TextWrapping="Wrap" VerticalAlignment="Top" Width="582"/>
+
+
+    </Grid>
+</Page>
