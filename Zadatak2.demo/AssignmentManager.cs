@@ -46,12 +46,13 @@ public async Task RunAssignments()
 
 
 
-        } public Assignment [] addFiles (List<StorageFile> files, StorageFolder folder, int numOfCores)
+        } 
+        public Assignment [] addFiles (List<AssignmentData> assignmentDataList, StorageFolder folder, int numOfCores)
         {
             //var fal = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList;
             //fal.AddOrReplace(folder.Path, folder);
             List<Assignment> assignments = new List<Assignment>();
-            foreach(var file in files)
+            foreach(var assignmentData in assignmentDataList)
             {
                 //StorageFile destinationFile =await folder.CreateFileAsync(file.Name, CreationCollisionOption.GenerateUniqueName);
 

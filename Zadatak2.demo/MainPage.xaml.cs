@@ -40,7 +40,8 @@ namespace Zadatak2.demo
         private bool firstTimeNavigated = false;
         private static int number = 0;
         private AssignmentManager manager;
-        private List<StorageFile> pickedFiles = new List<StorageFile>();
+        //private List<StorageFile> pickedFiles = new List<StorageFile>();
+        private List<AssignmentData> pickedFiles = new List<AssignmentData>();
         MediaCapture mediaCapture;
         bool isPreviewing =false;
         DisplayRequest displayRequest = new DisplayRequest();
@@ -51,9 +52,9 @@ namespace Zadatak2.demo
             
 
         }
-        private async Task RemoveSelected(StorageFile file, MyUserControl1 fileDetails)
+        private async Task RemoveSelected(int id, MyUserControl1 fileDetails)
         {
-            pickedFiles.Remove(file);
+            pickedFiles.RemoveAll(x => x.ID == id);
             if (fileDetails != null)
                 SelectedStackPanel.Children.Remove(fileDetails);
 
@@ -71,9 +72,9 @@ namespace Zadatak2.demo
             files = await fileOpenPicker.PickMultipleFilesAsync();
             if (files != null || files.Count != 0)
             {
-                List<StorageFile> distinctFiles = files.Where(a => !pickedFiles.Contains(a)).ToList();
+                List<StorageFile> distinctFiles = files.Where(a => !pickedFiles.Select(x=>x.SourceFile).ToList().Contains(a)).ToList();
                 await UpdateSelectedStackPanel(distinctFiles);
-                pickedFiles.AddRange(distinctFiles);
+                pickedFiles.AddRange(distinctFiles.Select(x=>new AssignmentData(x)).ToList());
                 
             }
 
