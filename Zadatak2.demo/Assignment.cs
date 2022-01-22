@@ -22,6 +22,7 @@ namespace Zadatak2.demo
 
     public class Assignment
     {
+        delegate void EffectFunction(BitmapPlane bitmp, BitmapPlaneDescription descr , int i,int j);
         public int Height { get; set; }
         public int Width { get; set; }
         public int Angle { get; set; }
@@ -108,10 +109,19 @@ namespace Zadatak2.demo
                 encoder.SetSoftwareBitmap(softwareBitmap);
 
                 // Set additional encoding parameters, if needed
-                //encoder.BitmapTransform.ScaledWidth = 320;
-                //encoder.BitmapTransform.ScaledHeight = 240;
+                if(Width!=-1)
+                encoder.BitmapTransform.ScaledWidth = (uint)Width;
+                if (Height != -1)
+                    encoder.BitmapTransform.ScaledHeight = (uint)Height;
+                switch(Angle)
+                {
+                    case 90: encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees; break;
+                    case 180: encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise180Degrees; break;
+                    case 270: encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise270Degrees; break;
+                    default: break;
+                }
                 //encoder.BitmapTransform.Rotation = Windows.Graphics.Imaging.BitmapRotation.Clockwise90Degrees;
-                //encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+                encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
                 encoder.IsThumbnailGenerated = true;
 
                 try
@@ -220,8 +230,77 @@ namespace Zadatak2.demo
 
 
         }
+        private unsafe void ChangeOnePixelSepia(BitmapPlane plane, BitmapPlaneDescription bufferLayout, int i, int j)
+        {
+            int r = (int)plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 0];
+            int g = (int)plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 1];
+            int b = (int)plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 2];
 
-        private unsafe void ChangeOnePixel(BitmapPlane plane, BitmapPlaneDescription bufferLayout, int i, int j)
+            int tr = (int)(0.393 * r + 0.769 * g + 0.189 * b);
+            int tg = (int)(0.349 * r + 0.686 * g + 0.168 * b);
+            int tb = (int)(0.272 * r + 0.534 * g + 0.131 * b);
+
+            if (tr > 255)
+            {
+                r = 255;
+            }
+            else
+            {
+                r = tr;
+            }
+
+            if (tg > 255)
+            {
+                g = 255;
+            }
+            else
+            {
+                g = tg;
+            }
+
+            if (tb > 255)
+            {
+                b = 255;
+            }
+            else
+            {
+                b = tb;
+            }
+
+
+
+
+            plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 0] = (byte)r;
+            plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 1] = (byte)g;
+            plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 2] = (byte)b;
+
+
+
+
+        }
+        private unsafe void ChangeOnePixelGreyscale(BitmapPlane plane, BitmapPlaneDescription bufferLayout, int i, int j)
+        {
+            int r = (int)plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 0];
+            int g = (int)plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 1];
+            int b = (int)plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 2];
+
+            int average = (r + g + b) / 3;
+
+           
+
+
+
+
+            plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 0] = (byte)average;
+            plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 1] = (byte)average;
+            plane.dataInBytes[bufferLayout.StartIndex + bufferLayout.Stride * i + 4 * j + 2] = (byte)average;
+
+
+
+
+        }
+
+        private unsafe void ChangeOnePixelNegative(BitmapPlane plane, BitmapPlaneDescription bufferLayout, int i, int j)
         {
 
 
@@ -402,7 +481,16 @@ namespace Zadatak2.demo
                 if (CurrentState == AssignmentState.Pending || !IsInitialized)
                 {
                     cancellationTokenSource = new CancellationTokenSource();
-                    processingTask = Task.Factory.StartNew(async () => await ProcessImageParalel(cancellationTokenSource.Token), cancellationTokenSource.Token);
+                    Action<BitmapPlane, BitmapPlaneDescription, int, int> effectFunction = null;
+                    switch(Effect)
+                    {
+                        case "Negative": effectFunction = ChangeOnePixelNegative; break;
+                        case "Sepia": effectFunction = ChangeOnePixelSepia; break;
+                            case "Greyscale":effectFunction = ChangeOnePixelGreyscale; break;
+                        //default: effectFunction=
+                        default: effectFunction = ChangeOnePixelNegative; break;
+                    }
+                    processingTask = Task.Factory.StartNew(async () => await ProcessImageParalel(cancellationTokenSource.Token, effectFunction), cancellationTokenSource.Token);
                 }
                 //else if (!silent)
                 //    throw new InvalidOperationException("The task is already started.");
@@ -608,7 +696,7 @@ namespace Zadatak2.demo
                                    uint br = Convert.ToUInt32(i);
                                    unsafe
                                    {
-                                       ChangeOnePixel(bitmapPlane, bufferLayout, i, j);
+                                       ChangeOnePixelNegative(bitmapPlane, bufferLayout, i, j);
                                    }
 
                                }
@@ -676,7 +764,7 @@ namespace Zadatak2.demo
 
         }
 
-        private async Task ProcessImageParalel(CancellationToken cancellationToken)
+        private async Task ProcessImageParalel(CancellationToken cancellationToken, Action<BitmapPlane, BitmapPlaneDescription, int, int> EffectFunction)
         {
 
             //await Task.Run(async () => {
@@ -738,7 +826,7 @@ namespace Zadatak2.demo
                                       
                                       unsafe
                                       {
-                                          ChangeOnePixel(bitmapPlane, bufferLayout, i, j);
+                                          EffectFunction(bitmapPlane, bufferLayout, i, j);
                                       }
 
                                   }
@@ -858,7 +946,7 @@ namespace Zadatak2.demo
 
                                 unsafe
                                 {
-                                    ChangeOnePixel(bitmapPlane, bufferLayout, i, j);
+                                    ChangeOnePixelNegative(bitmapPlane, bufferLayout, i, j);
                                 }
 
                             }

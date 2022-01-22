@@ -7,20 +7,22 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Title="TITLE"
-    PrimaryButtonText="Button1"
-    SecondaryButtonText="Button2"
+    Title="Transform properties"
+    PrimaryButtonText="OK"
+    SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
-    <Grid Height="200">
+    <Grid Margin="0,10,0,-6">
 
-        <RadioButton  x:Name="NegativeRadioButton" Tag="Negative" Content="Negative" Margin="10,142,0,0" Click="RadioButton_Click" VerticalAlignment="Top"/>
-        <RadioButton  x:Name="SepiaRadioButton" Tag="Sepia" Content="Sepia" Margin="135,142,0,0" Click="RadioButton_Click" VerticalAlignment="Top"/>
-        <controls:NumberBox x:Name="HeightNumberBox" Header="Height" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top"/>
-        <controls:NumberBox x:Name="WidthNumberBox" Header="Width" HorizontalAlignment="Left" Margin="96,18,0,0" VerticalAlignment="Top"/>
+        <RadioButton  x:Name="NegativeRadioButton" Tag="Negative" Content="Negative" Margin="8,210,0,0" Click="RadioButton_Click" VerticalAlignment="Top"/>
+        <RadioButton  x:Name="SepiaRadioButton" Tag="Sepia" Content="Sepia" Margin="128,210,0,0" Click="RadioButton_Click" VerticalAlignment="Top"/>
+        <controls:NumberBox x:Name="HeightNumberBox" IsEnabled="false" Visibility="Collapsed" Header="Height" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+        <controls:NumberBox x:Name="WidthNumberBox" IsEnabled="false" Visibility="Collapsed" Header="Width" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Slider  HorizontalAlignment="Left" Minimum="0" Maximum="270" TickFrequency="90" StepFrequency="90" Header="Angle
-                 " ValueChanged="Slider_ValueChanged"  Margin="10,86,0,0" VerticalAlignment="Top" Width="216"/>
-        <TextBlock HorizontalAlignment="Left" Margin="244,107,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                 " ValueChanged="Slider_ValueChanged"  Margin="10,149,0,0" VerticalAlignment="Top" Width="216"/>
+        <TextBlock HorizontalAlignment="Left" Margin="240,177,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <ToggleSwitch x:Name="SizeAdjustSwitch" Header="Enable size adjust" Margin="8,10,0,0" Toggled="SizeAdjustSwitch_Toggled" VerticalAlignment="Top"/>
+        <RadioButton Content="Greyscale" Tag="Greyscale" Click="RadioButton_Click" Margin="8,242,0,0" VerticalAlignment="Top"/>
     </Grid>
 </ContentDialog>

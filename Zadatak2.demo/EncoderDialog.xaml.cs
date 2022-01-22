@@ -64,7 +64,31 @@ namespace Zadatak2.demo
         }
         public (int, int, int, string) getData()
         {
-            return (angle, Convert.ToInt32(HeightNumberBox.Text), Convert.ToInt32(WidthNumberBox.Text), tag);
+            return (angle, SizeAdjustSwitch.IsOn ? Convert.ToInt32(HeightNumberBox.Text) : -1, SizeAdjustSwitch.IsOn ? Convert.ToInt32(WidthNumberBox.Text) : -1, tag);
+        }
+
+        private void SizeAdjustSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            ToggleSwitch ts = sender as ToggleSwitch;
+            if(ts!=null)
+            {
+                if(ts.IsOn)
+                {
+                    HeightNumberBox.IsEnabled = true;
+                    HeightNumberBox.Visibility = Visibility.Visible;
+                    WidthNumberBox.IsEnabled = true;
+                    WidthNumberBox.Visibility = Visibility.Visible;
+               
+                }
+                else
+                {
+                    HeightNumberBox.IsEnabled =false;
+                    HeightNumberBox.Visibility = Visibility.Collapsed;
+                    WidthNumberBox.IsEnabled = false;
+                    WidthNumberBox.Visibility = Visibility.Collapsed;
+                }
+            }
+
         }
     }
 }

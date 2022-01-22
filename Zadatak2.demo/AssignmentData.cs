@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Zadatak2.demo
 {
-    class AssignmentData
+    public class AssignmentData
     {
         private static int count = 0;
         public AssignmentData(StorageFile sourceFile)

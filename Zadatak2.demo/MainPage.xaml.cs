@@ -73,8 +73,9 @@ namespace Zadatak2.demo
             if (files != null || files.Count != 0)
             {
                 List<StorageFile> distinctFiles = files.Where(a => !pickedFiles.Select(x=>x.SourceFile).ToList().Contains(a)).ToList();
-                await UpdateSelectedStackPanel(distinctFiles);
-                pickedFiles.AddRange(distinctFiles.Select(x=>new AssignmentData(x)).ToList());
+                List<AssignmentData> assignmentDataList = distinctFiles.Select(x=> new AssignmentData(x)).ToList();
+                await UpdateSelectedStackPanel(assignmentDataList);
+                pickedFiles.AddRange(assignmentDataList);
                 
             }
 
@@ -249,9 +250,11 @@ namespace Zadatak2.demo
     await ApplicationData.Current.LocalFolder.CreateFolderAsync("ProfilePhotoFolder",
         CreationCollisionOption.OpenIfExists);
 
-                StorageFile newPhoto =await photo.CopyAsync(destinationFolder, "ProfilePhoto" + number +".jpg", NameCollisionOption.ReplaceExisting);
-                await photo.DeleteAsync();await UpdateSelectedStackPanel(newPhoto);
-                pickedFiles.Add(newPhoto);
+                StorageFile newPhoto =await photo.CopyAsync(destinationFolder, "CameraPhoto" + number +".jpg", NameCollisionOption.GenerateUniqueName);
+                await photo.DeleteAsync();
+                AssignmentData assignmentData = new AssignmentData(newPhoto);
+                await UpdateSelectedStackPanel(assignmentData);
+                pickedFiles.Add(assignmentData);
 
 
             }
@@ -286,7 +289,7 @@ namespace Zadatak2.demo
                         await encoder.FlushAsync();
                     }
 
-                    pickedFiles.Add(file);
+                    pickedFiles.Add(new AssignmentData(file));
                 }
                 await CleanupCameraAsync();
             }
@@ -402,8 +405,10 @@ namespace Zadatak2.demo
 
                     await encoder.FlushAsync();
                 }
-                await UpdateSelectedStackPanel(file);
-                pickedFiles.Add(file);
+                AssignmentData assignmentData = new AssignmentData(file);
+                //await UpdateSelectedStackPanel(file);
+                await UpdateSelectedStackPanel(assignmentData);
+                pickedFiles.Add(assignmentData);
                 
             }
             IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
@@ -443,30 +448,30 @@ namespace Zadatak2.demo
                 }
             }
         }
-        private async Task UpdateSelectedStackPanel(List<StorageFile> files)
+        private async Task UpdateSelectedStackPanel(List<AssignmentData> assignmentDataList)
         {
-            foreach (StorageFile file in files)
+            foreach (var assignmentData in assignmentDataList)
                 await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    MyUserControl1 selectedControl = new MyUserControl1(file);
+                    MyUserControl1 selectedControl = new MyUserControl1(assignmentData);
                     selectedControl.FileRemoved += SelectedControl_FileRemoved;
                     SelectedStackPanel.Children.Add(selectedControl);
                 });
         }
-        private async Task UpdateSelectedStackPanel(StorageFile file)
+        private async Task UpdateSelectedStackPanel(AssignmentData assignmentData)
         {
             
                 await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    MyUserControl1 selectedControl = new MyUserControl1(file);
+                    MyUserControl1 selectedControl = new MyUserControl1(assignmentData);
                     selectedControl.FileRemoved += SelectedControl_FileRemoved;
                     SelectedStackPanel.Children.Add(selectedControl);
                 });
         }
 
-        private async void SelectedControl_FileRemoved(StorageFile file, object sender)
+        private async void SelectedControl_FileRemoved(int id, object sender)
         {
-            await RemoveSelected(file, sender as MyUserControl1);
+            await RemoveSelected(id, sender as MyUserControl1);
         }
     }
 }

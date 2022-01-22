@@ -56,7 +56,11 @@ public async Task RunAssignments()
             {
                 //StorageFile destinationFile =await folder.CreateFileAsync(file.Name, CreationCollisionOption.GenerateUniqueName);
 
-                Assignment a = new Assignment(file, folder, file.Name, numOfCores);
+                Assignment a = new Assignment(assignmentData.SourceFile, folder, assignmentData.SourceFile.Name, numOfCores);
+                a.Height = assignmentData.Height;
+                a.Width = assignmentData.Width;
+                a.Angle = assignmentData.Angle;
+                a.Effect = assignmentData.Effect;
                 a.IsInitialized = true;
                 a.CurrentState = Assignment.AssignmentState.Pending;
 

@@ -5,34 +5,56 @@
     xmlns:local="using:Zadatak2.demo"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="1527">
+    mc:Ignorable="d">
 
-    <Grid>
+    <!--<Page.Resources>
+        <SolidColorBrush x:Key="ToggleSwitchCurtainBackgroundThemeBrush" Color="red" />
+        <SolidColorBrush x:Key="ToggleSwitchCurtainPointerOverBackgroundThemeBrush" Color="red" />
+        <SolidColorBrush x:Key="ToggleSwitchCurtainPressedBackgroundThemeBrush" Color="red" />
+    </Page.Resources>-->
+
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="353*"/>
+            <RowDefinition Height="368*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="98*"/>
-            <ColumnDefinition Width="204*"/>
-            <ColumnDefinition Width="207*"/>
+            <ColumnDefinition Width="245*"/>
+            <ColumnDefinition Width="894*"/>
+            <ColumnDefinition Width="781*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="OdaberiSlike" Content="Select images" Margin="0,75,0,0" VerticalAlignment="Top" Height="40" Width="161" HorizontalAlignment="Center" Click="OdaberiSlike_Clicked"/>
-        <Button x:Name="PokreniObradu" Content="Run transformation" Margin="0,141,0,0" VerticalAlignment="Top" Height="41" Width="160" Click="PokreniObradu_Clicked" HorizontalAlignment="Center"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Column="2" Margin="0,0,-6,0">
-            <StackPanel x:Name="AssignmentsStackPanel" Grid.Column="3" Spacing="10" />
+        <Border Background="#FF575757" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,0,894,0"></Border>
+        <Button x:Name="OdaberiSlike" Content="Select images" Margin="0,68,0,0" VerticalAlignment="Top" Height="40" Width="161" Click="OdaberiSlike_Clicked" Background="#FF0090BC" FontSize="20" Foreground="#E4F9EFEF" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center"/>
+        <Button x:Name="PokreniObradu" Content="Run transformation" Margin="71,146,0,0" VerticalAlignment="Top" Height="41" Width="160" Click="PokreniObradu_Clicked"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Column="2" Margin="5,5,-11,5" Grid.RowSpan="2">
+            <StackPanel x:Name="AssignmentsStackPanel" Grid.Column="3" Spacing="10" >
+                <StackPanel.Background>
+                    <ImageBrush Stretch="Uniform" ImageSource="/Assets/P2.png"/>
+                </StackPanel.Background>
+            </StackPanel>
         </ScrollViewer>
-        <Button x:Name="CameraButton" Margin="66,265,0,0" VerticalAlignment="Top" Width="160" Height="32" Click="CameraButton_Clicked">
+        <Button x:Name="CameraButton" Margin="71,270,0,0" VerticalAlignment="Top" Width="160" Height="32" Click="CameraButton_Clicked">
             <SymbolIcon Symbol="Camera"/>
         </Button>
-        <CaptureElement x:Name="PreviewControl" Grid.Column="1" Margin="10,332,9,10"/>
-        <Button x:Name="FotografisiButton" Content="Fotografisi" Margin="0,380,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="160" IsEnabled="False" Click="FotografisiButton_Click" Height="33"/>
-        <ToggleSwitch x:Name="Kamera_switch" Header="Camera"  Margin="0,304,0,0" VerticalAlignment="Top" Width="158" Toggled="KameraToggled" Height="56" HorizontalAlignment="Center"/>
-        <Image x:Name="ImagePrewiev" HorizontalAlignment="Left" Height="266" Margin="-2,454,0,0" VerticalAlignment="Top" Width="266"/>
-        <UserControl HorizontalAlignment="Left" Margin="294,35,0,0" VerticalAlignment="Top" Height="262" Width="602" Grid.ColumnSpan="2">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
-                <StackPanel Name="SelectedStackPanel"/>
+        <Button x:Name="FotografisiButton" Content="Fotografisi" Margin="71,32,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False" Click="FotografisiButton_Click" Height="33" Grid.Row="1"/>
+        <ToggleSwitch x:Name="Kamera_switch" Header="Camera"  Margin="72,309,0,0" VerticalAlignment="Top" Width="154" Toggled="KameraToggled" Height="56" Foreground="White" Background="#FF0090BC"/>
+        <Image x:Name="ImagePrewiev" HorizontalAlignment="Left" Height="266" Margin="3,106,0,0" VerticalAlignment="Top" Width="266" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <!--<Border Grid.Column="1" Margin="10,332,9,10">-->
+        <!--<Border.Background>-->
+        <!--<ImageBrush ImageSource="/Assets/P.png" Stretch="Uniform"/>-->
+        <!--</Border.Background>-->
+        <CaptureElement x:Name="PreviewControl" Grid.Column="1" Grid.Row="1" Margin="66,0,0,0"/>
+        <!--</Border>-->
+        <!--<Button x:Name="FotografisiButton" Content="Fotografisi" Margin="71,32,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False" Click="FotografisiButton_Click" Height="33" Grid.Row="1"/>
+        <ToggleSwitch x:Name="Kamera_switch" Header="Camera"  Margin="72,309,0,0" VerticalAlignment="Top" Width="158" Toggled="KameraToggled" Height="56" Grid.RowSpan="2"/>
+        <Image x:Name="ImagePrewiev" HorizontalAlignment="Left" Height="266" Margin="3,106,0,0" VerticalAlignment="Top" Width="266" Grid.Row="1"/>-->
+        <!--<UserControl HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" Height="456" Margin="10,0,0,0">-->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0" VerticalScrollMode="Enabled" Margin="66,0,0,551" Grid.RowSpan="2">
+            <StackPanel Name="SelectedStackPanel" Background="Black" BorderThickness="3" FocusVisualPrimaryBrush="{x:Null}"/>
 
-            </ScrollViewer>
-        </UserControl>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Text="Your selection will apppear here" TextWrapping="Wrap" VerticalAlignment="Top" Width="582"/>
+        </ScrollViewer>
+        <!--</UserControl>-->
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="15,15,0,0" Text="Your selection will apppear here" TextWrapping="Wrap" VerticalAlignment="Top" Width="582" Height="19"/>
 
 
     </Grid>

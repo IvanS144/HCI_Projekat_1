@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
         <Image x:Name="SelectedPrewiew" HorizontalAlignment="Center" Height="80" VerticalAlignment="Top" Width="100" Grid.RowSpan="2"/>
         <TextBlock x:Name="NameTextBlock" Grid.Column="1" HorizontalAlignment="Center" Text="TextBlock" TextWrapping="Wrap" TextAlignment="Left" FontWeight="Bold" VerticalAlignment="Center" Width="291" Height="37" FontSize="18"/>
-        <Button Content="Properties" Grid.Column="1" Margin="196,0,0,0" Grid.Row="1"/>
+        <Button x:Name="Properties_Button" Content="Properties" Grid.Column="1" Margin="196,0,0,0" Grid.Row="1" Click="PropertiesButton_Click"/>
 
     </Grid>
 </UserControl>

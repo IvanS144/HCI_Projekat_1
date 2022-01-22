@@ -23,13 +23,17 @@ namespace Zadatak2.demo
 {
     public sealed partial class MyUserControl1 : UserControl
     {
-        public delegate void FileActionCompletedDelegate(StorageFile file, object sender);
+        public delegate void FileActionCompletedDelegate(int id, object sender);
+        public int ID { get; set; }
         public event FileActionCompletedDelegate FileRemoved;
         private StorageFile file;
-        public MyUserControl1(StorageFile file)
+        private AssignmentData assignmentData;
+        public MyUserControl1(AssignmentData assignmentData)
         {
+            this.assignmentData = assignmentData;
             this.InitializeComponent();
-            this.file = file;
+            this.file = assignmentData.SourceFile;
+            ID = assignmentData.ID;
             NameTextBlock.Text = file.Name;
             setImage();
 
@@ -67,7 +71,17 @@ namespace Zadatak2.demo
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            FileRemoved?.Invoke(file, this);
+            FileRemoved?.Invoke(ID, this);
+        }
+
+        private async void PropertiesButton_Click(object sender, RoutedEventArgs e)
+        {
+            EncoderDialog enc = new EncoderDialog();
+            ContentDialogResult result = await enc.ShowAsync();
+            if(result == ContentDialogResult.Primary)
+            {
+                (assignmentData.Angle, assignmentData.Height, assignmentData.Width, assignmentData.Effect) = enc.getData();
+            }
         }
     }
 }
