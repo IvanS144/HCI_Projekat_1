@@ -13,48 +13,71 @@
         <SolidColorBrush x:Key="ToggleSwitchCurtainPressedBackgroundThemeBrush" Color="red" />
     </Page.Resources>-->
 
-    <Grid Background="Black">
+    <Grid Background="#012611">
         <Grid.RowDefinitions>
-            <RowDefinition Height="353*"/>
-            <RowDefinition Height="368*"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="519*"/>
+            <RowDefinition Height="494*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="245*"/>
-            <ColumnDefinition Width="894*"/>
-            <ColumnDefinition Width="781*"/>
+            <ColumnDefinition Width="294*"/>
+            <ColumnDefinition Width="683*"/>
+            <ColumnDefinition Width="943*"/>
         </Grid.ColumnDefinitions>
-        <Border Background="#FF575757" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,0,894,0"></Border>
-        <Button x:Name="OdaberiSlike" Content="Select images" Margin="0,68,0,0" VerticalAlignment="Top" Height="40" Width="161" Click="OdaberiSlike_Clicked" Background="#FF0090BC" FontSize="20" Foreground="#E4F9EFEF" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center"/>
-        <Button x:Name="PokreniObradu" Content="Run transformation" Margin="71,146,0,0" VerticalAlignment="Top" Height="41" Width="160" Click="PokreniObradu_Clicked"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Column="2" Margin="5,5,-11,5" Grid.RowSpan="2">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Spacing="10" Grid.Row="0" Grid.ColumnSpan="2">
+            <Button x:Name="OdaberiSlike" Content="Select images" Width="110" Click="OdaberiSlike_Clicked" Background="#02733E" Foreground="White" BorderBrush="#038C4C"/>
+            <Button x:Name="PokreniObradu" Content="Run" Width="110" Click="PokreniObradu_Clicked" Foreground="White" Background="#FF02733E" BorderBrush="#FF038C4C"/>
+            <Button x:Name="CameraButton" Content="Open Windows camera" Click="CameraButton_Clicked" Foreground="White" Background="#FF02733E" BorderBrush="#FF038C4C"/>
+            <ToggleSwitch x:Name="Kamera_switch" Header="Camera" Toggled="KameraToggled" Foreground="White">
+                <ToggleSwitch.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="Camera" Foreground="White"/>
+                    </DataTemplate>
+                </ToggleSwitch.HeaderTemplate>
+            </ToggleSwitch>
+            <Button x:Name="FotografisiButton" IsEnabled="False" Width="110" Click="FotografisiButton_Click" Foreground="#FF00E078" Background="#FF02733E" BorderBrush="#FF038C4C">
+                <Button.Content>
+                    <SymbolIcon Symbol="Camera"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        <!--<Border Background="#01401C" Grid.Column="0" Grid.RowSpan="3"/>-->
+        <!--<Button x:Name="OdaberiSlike" Content="Select images" Margin="10,0,0,0" Width="110" Click="OdaberiSlike_Clicked" Background="#02733E" Foreground="#FF00E078" BorderBrush="#038C4C" BorderThickness="2" Height="34"/>-->
+        <!--<Button.RenderTransform>
+                <CompositeTransform SkewX="-0.682" TranslateX="-0.238"/>
+            </Button.RenderTransform>-->
+
+        <!--<Button x:Name="PokreniObradu" Content="Run" Margin="158,0,0,0" Width="110" Click="PokreniObradu_Clicked" Foreground="#FF00E078" Background="#FF02733E" BorderBrush="#FF038C4C" Height="32"/>-->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Column="2" Margin="5,5,-11,5" Grid.RowSpan="3">
             <StackPanel x:Name="AssignmentsStackPanel" Grid.Column="3" Spacing="10" >
-                <StackPanel.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="/Assets/P2.png"/>
-                </StackPanel.Background>
+                <!--<StackPanel.Background>
+                    <ImageBrush Stretch="Uniform" ImageSource="/Assets/PP3.png"/>
+                </StackPanel.Background>-->
             </StackPanel>
         </ScrollViewer>
-        <Button x:Name="CameraButton" Margin="71,270,0,0" VerticalAlignment="Top" Width="160" Height="32" Click="CameraButton_Clicked">
-            <SymbolIcon Symbol="Camera"/>
-        </Button>
-        <Button x:Name="FotografisiButton" Content="Fotografisi" Margin="71,32,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False" Click="FotografisiButton_Click" Height="33" Grid.Row="1"/>
-        <ToggleSwitch x:Name="Kamera_switch" Header="Camera"  Margin="72,309,0,0" VerticalAlignment="Top" Width="154" Toggled="KameraToggled" Height="56" Foreground="White" Background="#FF0090BC"/>
-        <Image x:Name="ImagePrewiev" HorizontalAlignment="Left" Height="266" Margin="3,106,0,0" VerticalAlignment="Top" Width="266" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <!--<Button x:Name="CameraButton" Content="Open Windows camera" Click="CameraButton_Clicked" Foreground="#FF00E078" Background="#FF02733E" BorderBrush="#FF038C4C" Margin="102,0,0,0" Grid.Column="1" Height="32" Width="168">-->
+        <!--<SymbolIcon Symbol="Camera"/>-->
+        <!--</Button>-->
+        <!--<ToggleSwitch x:Name="Kamera_switch" Header="Camera" Toggled="KameraToggled" Foreground="#FF00E078" Width="154" Height="53" Grid.Column="1" Margin="286,0,0,0"/>-->
+        <!--<Image x:Name="ImagePrewiev" HorizontalAlignment="Center" Height="266" VerticalAlignment="Center" Width="266" Grid.Row="2"/>-->
         <!--<Border Grid.Column="1" Margin="10,332,9,10">-->
         <!--<Border.Background>-->
         <!--<ImageBrush ImageSource="/Assets/P.png" Stretch="Uniform"/>-->
         <!--</Border.Background>-->
-        <CaptureElement x:Name="PreviewControl" Grid.Column="1" Grid.Row="1" Margin="66,0,0,0"/>
+        <Border Background="black" Grid.Row="1" Grid.ColumnSpan="2">
+            <CaptureElement x:Name="PreviewControl"/>
+        </Border>
         <!--</Border>-->
         <!--<Button x:Name="FotografisiButton" Content="Fotografisi" Margin="71,32,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False" Click="FotografisiButton_Click" Height="33" Grid.Row="1"/>
         <ToggleSwitch x:Name="Kamera_switch" Header="Camera"  Margin="72,309,0,0" VerticalAlignment="Top" Width="158" Toggled="KameraToggled" Height="56" Grid.RowSpan="2"/>
         <Image x:Name="ImagePrewiev" HorizontalAlignment="Left" Height="266" Margin="3,106,0,0" VerticalAlignment="Top" Width="266" Grid.Row="1"/>-->
         <!--<UserControl HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" Height="456" Margin="10,0,0,0">-->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0" VerticalScrollMode="Enabled" Margin="66,0,0,551" Grid.RowSpan="2">
-            <StackPanel Name="SelectedStackPanel" Background="Black" BorderThickness="3" FocusVisualPrimaryBrush="{x:Null}"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,8,0">
+            <StackPanel Name="SelectedStackPanel" Background="#012611" BorderThickness="3" Spacing="5"/>
 
         </ScrollViewer>
         <!--</UserControl>-->
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="15,15,0,0" Text="Your selection will apppear here" TextWrapping="Wrap" VerticalAlignment="Top" Width="582" Height="19"/>
+        <!--<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="15,15,0,0" Text="Your selection will apppear here" TextWrapping="Wrap" VerticalAlignment="Top" Width="582" Height="19"/>-->
 
 
     </Grid>

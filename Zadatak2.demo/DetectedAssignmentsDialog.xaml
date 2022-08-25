@@ -1,5 +1,5 @@
 ﻿<ContentDialog
-    x:Class="Zadatak2.demo.ContentDialog2"
+    x:Class="Zadatak2.demo.DetectedAssignmentsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Zadatak2.demo"
@@ -10,10 +10,10 @@
     PrimaryButtonText="Discard"
     SecondaryButtonText="Start over"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" Foreground="#E4FFFFFF" Background="#FF038C4C" BorderBrush="#FF01401C">
 
     <ScrollViewer VerticalScrollBarVisibility ="Auto" VerticalScrollMode="Enabled">
-        <StackPanel Name="DetectedStackPanel"/>
+        <StackPanel Name="DetectedStackPanel" Background="#FF01401C"/>
 
     </ScrollViewer>
 </ContentDialog>

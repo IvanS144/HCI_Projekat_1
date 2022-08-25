@@ -21,14 +21,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Zadatak2.demo
 {
-    public sealed partial class MyUserControl1 : UserControl
+    public sealed partial class SelectedImage : UserControl
     {
         public delegate void FileActionCompletedDelegate(int id, object sender);
         public int ID { get; set; }
         public event FileActionCompletedDelegate FileRemoved;
         private StorageFile file;
         private AssignmentData assignmentData;
-        public MyUserControl1(AssignmentData assignmentData)
+        public SelectedImage(AssignmentData assignmentData)
         {
             this.assignmentData = assignmentData;
             this.InitializeComponent();
@@ -55,18 +55,11 @@ namespace Zadatak2.demo
             await bitmapSource.SetBitmapAsync(softwareBitmapBGR8);
 
             SelectedPrewiew.Source = bitmapSource;
-
-
-
-
-
-
         }
 
         private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout(sender as Grid);
-
         }
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -76,9 +69,9 @@ namespace Zadatak2.demo
 
         private async void PropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            EncoderDialog enc = new EncoderDialog();
+            EncoderDialog enc = new EncoderDialog(this.assignmentData);
             ContentDialogResult result = await enc.ShowAsync();
-            if(result == ContentDialogResult.Primary)
+            if (result == ContentDialogResult.Primary)
             {
                 (assignmentData.Angle, assignmentData.Height, assignmentData.Width, assignmentData.Effect) = enc.getData();
             }

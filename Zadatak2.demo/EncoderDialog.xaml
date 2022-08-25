@@ -8,21 +8,46 @@
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Title="Transform properties"
+    Foreground="#FFFFFFFF"
     PrimaryButtonText="OK"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" Background="#FF02733E" BorderBrush="#FF01401C" >
 
     <Grid Margin="0,10,0,-6">
 
-        <RadioButton  x:Name="NegativeRadioButton" Tag="Negative" Content="Negative" Margin="8,210,0,0" Click="RadioButton_Click" VerticalAlignment="Top"/>
-        <RadioButton  x:Name="SepiaRadioButton" Tag="Sepia" Content="Sepia" Margin="128,210,0,0" Click="RadioButton_Click" VerticalAlignment="Top"/>
-        <controls:NumberBox x:Name="HeightNumberBox" IsEnabled="false" Visibility="Collapsed" Header="Height" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
-        <controls:NumberBox x:Name="WidthNumberBox" IsEnabled="false" Visibility="Collapsed" Header="Width" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Slider  HorizontalAlignment="Left" Minimum="0" Maximum="270" TickFrequency="90" StepFrequency="90" Header="Angle
-                 " ValueChanged="Slider_ValueChanged"  Margin="10,149,0,0" VerticalAlignment="Top" Width="216"/>
+        <RadioButton  x:Name="NegativeRadioButton" Tag="Negative" Content="Negative" Margin="8,210,0,0" Click="RadioButton_Click" VerticalAlignment="Top" Foreground="White"/>
+        <RadioButton  x:Name="SepiaRadioButton" Tag="Sepia" Content="Sepia" Margin="128,210,0,0" Click="RadioButton_Click" VerticalAlignment="Top" Foreground="White"/>
+        <controls:NumberBox x:Name="HeightNumberBox" Minimum="20" IsEnabled="false" Visibility="Visible" Header="Height" HorizontalAlignment="Left" Margin="8,79,0,0" VerticalAlignment="Top" BorderBrush="White" Foreground="White">
+            <controls:NumberBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="Height" Foreground="White"/>
+                </DataTemplate>
+            </controls:NumberBox.HeaderTemplate>
+        </controls:NumberBox>
+        <controls:NumberBox x:Name="WidthNumberBox" Minimum="20" IsEnabled="false" Visibility="Visible" Header="Width" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="98,79,0,0" BorderBrush="White" Foreground="White">
+            <controls:NumberBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="Width" Foreground="White"/>
+                </DataTemplate>
+            </controls:NumberBox.HeaderTemplate>
+        </controls:NumberBox>
+        <Slider x:Name="Slider"  HorizontalAlignment="Left" Minimum="0" Maximum="270" TickFrequency="90" StepFrequency="90" ValueChanged="Slider_ValueChanged"  Margin="10,149,0,0" VerticalAlignment="Top" Width="216">
+            <Slider.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="Angle" Foreground="White"/>
+                </DataTemplate>
+            </Slider.HeaderTemplate>
+        </Slider>
         <TextBlock HorizontalAlignment="Left" Margin="240,177,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <ToggleSwitch x:Name="SizeAdjustSwitch" Header="Enable size adjust" Margin="8,10,0,0" Toggled="SizeAdjustSwitch_Toggled" VerticalAlignment="Top"/>
-        <RadioButton Content="Greyscale" Tag="Greyscale" Click="RadioButton_Click" Margin="8,242,0,0" VerticalAlignment="Top"/>
+        <ToggleSwitch x:Name="SizeAdjustSwitch" Header="Enable size adjust" Margin="8,10,0,0" Toggled="SizeAdjustSwitch_Toggled" VerticalAlignment="Top" Foreground="White">
+            <ToggleSwitch.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="Enable size adjust" Foreground="White"/>
+                </DataTemplate>
+            </ToggleSwitch.HeaderTemplate>
+        </ToggleSwitch>
+        <RadioButton x:Name="GrayscaleRadioButton" Content="Greyscale" Tag="Greyscale" Click="RadioButton_Click" Margin="8,242,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <RadioButton x:Name="NoEffectRadioButton" Content="No effect" Tag="NoEffect" Click="RadioButton_Click" Margin="128,242,0,0" VerticalAlignment="Top" Foreground="White"/>
     </Grid>
 </ContentDialog>

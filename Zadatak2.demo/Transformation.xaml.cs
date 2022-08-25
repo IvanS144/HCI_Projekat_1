@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Zadatak2.demo
 {
-    public sealed partial class MyUserControl2 : UserControl
+    public sealed partial class Transformation : UserControl
     {
         public delegate void AssignmentActionCompletedDelegate(Assignment a, object sender);
 
@@ -32,7 +32,7 @@ namespace Zadatak2.demo
         public event AssignmentActionCompletedDelegate AssignmentRemoved;
 
 
-        public MyUserControl2(Assignment a)
+        public Transformation(Assignment a)
         {
             this.InitializeComponent();
             this.assignment = a;
@@ -42,7 +42,7 @@ namespace Zadatak2.demo
 
         private async void A_SavingInProgress(bool value, string name)
         {
-            if(value==true)
+            if (value == true)
             {
                 await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
@@ -51,9 +51,6 @@ namespace Zadatak2.demo
                     CurrentStateTextBlock.Text = "Saving...";
 
                 });
-
-
-
             }
             else
             {
@@ -64,12 +61,6 @@ namespace Zadatak2.demo
                     SaveTextBox.Text = $"\nSaved to {name} in {assignment.DestinationFolder.Name}";
 
                 });
-
-                //SavingProgressRing.IsActive = false;
-                //SavingProgressRing.Visibility = Visibility.Collapsed;
-                //ImeFotografije.Text += $"\nSaved to {name} in {assignment.DestinationFolder.Name}";
-
-
             }
         }
 
@@ -79,16 +70,11 @@ namespace Zadatak2.demo
             {
                 if (!double.IsNaN(progress))
                     ImageProcessingProgressBar.Value = progress;
-                
-
                 CurrentStateTextBlock.Text = assignmentState.ToString();
-
                 UpdateControlVisibility();
-
                 if (assignmentState == Assignment.AssignmentState.Done)
                     AssignmentCompleted?.Invoke(assignment, this);
             });
-
         }
 
         private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -118,18 +104,12 @@ namespace Zadatak2.demo
 
         public void UpdateControlVisibility()
         {
-
-
-
-
             CancelButton.Visibility = PauseButton.Visibility = (!(assignment.Finished || assignment.IsPending || assignment.Saving)) ? Visibility.Visible : Visibility.Collapsed;
-
             StartButton.Visibility = (assignment.Finished || assignment.IsPending || assignment.Paused) ? Visibility.Visible : Visibility.Collapsed;
-
             CancelButton.IsEnabled = assignment.CurrentState != Assignment.AssignmentState.Cancelling && assignment.CurrentState != Assignment.AssignmentState.Cancelled && assignment.CurrentState != Assignment.AssignmentState.Saving; ;
             PauseButton.IsEnabled = assignment.CurrentState != Assignment.AssignmentState.Pausing && assignment.CurrentState != Assignment.AssignmentState.Paused && assignment.CurrentState != Assignment.AssignmentState.Saving; ;
         }
 
- 
+
     }
 }

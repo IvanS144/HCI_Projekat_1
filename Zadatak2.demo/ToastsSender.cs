@@ -13,8 +13,8 @@ namespace Zadatak2.demo
     public static class ToastsSender
     {
 
-        public static readonly SemaphoreSlim notificationSemaphore = new SemaphoreSlim(1);
-        public static async Task<StorageFolder> GetTempFolder() => await ApplicationData.Current.LocalFolder.CreateFolderAsync("temp", CreationCollisionOption.ReplaceExisting);
+        private static readonly SemaphoreSlim notificationSemaphore = new SemaphoreSlim(1);
+        private static async Task<StorageFolder> GetTempFolder() => await ApplicationData.Current.LocalFolder.CreateFolderAsync("temp", CreationCollisionOption.ReplaceExisting);
 
         public static async Task NotifyUser(Assignment assignment)
         {
@@ -28,13 +28,9 @@ namespace Zadatak2.demo
                 toastContentBuilder.AddText("Transformation finished", AdaptiveTextStyle.Title, hintMaxLines: 1);
                 toastContentBuilder.AddText(assignment.FileName);
 
-
-
                 StorageFolder tempFolder = await GetTempFolder();
                 StorageFile tempFile = await tempFolder.CreateFileAsync(assignment.DestinationName, CreationCollisionOption.ReplaceExisting);
                 await assignment.SaveResultToFile(tempFile);
-                //toastContentBuilder.AddHeroImage(new Uri($"ms-appdata:///local/{tempFolder.Name}/{tempFile.Name}"));
-
 
                 ToastContent content = toastContentBuilder.GetToastContent();
                 ToastNotification notification = new ToastNotification(content.GetXml());

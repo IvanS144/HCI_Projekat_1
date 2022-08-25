@@ -24,10 +24,27 @@ namespace Zadatak2.demo
     {
         private int angle;
         private string tag;
-        public EncoderDialog()
+        public EncoderDialog(AssignmentData assignmentData)
         {
-        
+
             this.InitializeComponent();
+            if (assignmentData.Width > 0)
+                WidthNumberBox.Value = assignmentData.Width;
+            if (assignmentData.Height > 0)
+                HeightNumberBox.Value = assignmentData.Height;
+            switch (assignmentData.Effect)
+            {
+                case "Negative": NegativeRadioButton.IsChecked = true; tag = "Negative"; break;
+                case "Sepia": SepiaRadioButton.IsChecked = true; tag = "Sepia"; break;
+                case "Greyscale": GrayscaleRadioButton.IsChecked = true; tag = "Greyscale"; break;
+                default: NoEffectRadioButton.IsChecked = true; tag = "NoEffect"; break;
+            }
+            if (assignmentData.Angle > 0)
+            {
+                Slider.Value = assignmentData.Angle;
+                angle = assignmentData.Angle;
+            }
+
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -37,7 +54,7 @@ namespace Zadatak2.demo
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
-        
+
 
         private void NegativeRadioButton_Click(object sender, RoutedEventArgs e)
         {
@@ -52,7 +69,7 @@ namespace Zadatak2.demo
         private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
             RadioButton radioButton = (RadioButton)sender;
-            if(radioButton!=null)
+            if (radioButton != null)
             {
                 tag = radioButton.Tag.ToString();
             }
@@ -70,22 +87,17 @@ namespace Zadatak2.demo
         private void SizeAdjustSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             ToggleSwitch ts = sender as ToggleSwitch;
-            if(ts!=null)
+            if (ts != null)
             {
-                if(ts.IsOn)
+                if (ts.IsOn)
                 {
                     HeightNumberBox.IsEnabled = true;
-                    HeightNumberBox.Visibility = Visibility.Visible;
                     WidthNumberBox.IsEnabled = true;
-                    WidthNumberBox.Visibility = Visibility.Visible;
-               
                 }
                 else
                 {
-                    HeightNumberBox.IsEnabled =false;
-                    HeightNumberBox.Visibility = Visibility.Collapsed;
+                    HeightNumberBox.IsEnabled = false;
                     WidthNumberBox.IsEnabled = false;
-                    WidthNumberBox.Visibility = Visibility.Collapsed;
                 }
             }
 

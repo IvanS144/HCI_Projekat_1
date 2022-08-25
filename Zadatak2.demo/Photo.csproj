@@ -135,20 +135,20 @@
       <DependentUpon>EncoderDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToastsSender.cs" />
-    <Compile Include="ContentDialog1.xaml.cs">
-      <DependentUpon>ContentDialog1.xaml</DependentUpon>
+    <Compile Include="ParametersDialog.xaml.cs">
+      <DependentUpon>ParametersDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContentDialog2.xaml.cs">
-      <DependentUpon>ContentDialog2.xaml</DependentUpon>
+    <Compile Include="DetectedAssignmentsDialog.xaml.cs">
+      <DependentUpon>DetectedAssignmentsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MyUserControl1.xaml.cs">
-      <DependentUpon>MyUserControl1.xaml</DependentUpon>
+    <Compile Include="SelectedImage.xaml.cs">
+      <DependentUpon>SelectedImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MyUserControl2.xaml.cs">
-      <DependentUpon>MyUserControl2.xaml</DependentUpon>
+    <Compile Include="Transformation.xaml.cs">
+      <DependentUpon>Transformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -165,6 +165,9 @@
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\P.png" />
     <Content Include="Assets\P2.png" />
+    <Content Include="Assets\PP.png" />
+    <Content Include="Assets\PP2.png" />
+    <Content Include="Assets\PP3.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -220,11 +223,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ContentDialog1.xaml">
+    <Page Include="ParametersDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContentDialog2.xaml">
+    <Page Include="DetectedAssignmentsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,24 +239,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MyUserControl1.xaml">
+    <Page Include="SelectedImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MyUserControl2.xaml">
+    <Page Include="Transformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.10</Version>
+      <Version>6.2.14</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>6.1.1</Version>
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.7.0</Version>
+      <Version>2.7.1</Version>
     </PackageReference>
     <PackageReference Include="SimpleImageEditing">
       <Version>1.0.0</Version>

@@ -43,23 +43,18 @@ namespace Zadatak2.demo
         //private List<StorageFile> pickedFiles = new List<StorageFile>();
         private List<AssignmentData> pickedFiles = new List<AssignmentData>();
         MediaCapture mediaCapture;
-        bool isPreviewing =false;
+        bool isPreviewing = false;
         DisplayRequest displayRequest = new DisplayRequest();
         public MainPage()
         {
             this.InitializeComponent(); manager = (Application.Current as App).Manager;
             Application.Current.Suspending += Application_Suspending;
-            
-
         }
-        private async Task RemoveSelected(int id, MyUserControl1 fileDetails)
+        private async Task RemoveSelected(int id, SelectedImage fileDetails)
         {
             pickedFiles.RemoveAll(x => x.ID == id);
             if (fileDetails != null)
                 SelectedStackPanel.Children.Remove(fileDetails);
-
-
-
         }
 
         private async void OdaberiSlike_Clicked(object sender, RoutedEventArgs e)
@@ -68,15 +63,16 @@ namespace Zadatak2.demo
             FileOpenPicker fileOpenPicker = new FileOpenPicker();
             fileOpenPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             fileOpenPicker.FileTypeFilter.Add(".jpg");
+            fileOpenPicker.FileTypeFilter.Add(".jpeg");
             fileOpenPicker.ViewMode = PickerViewMode.Thumbnail; IReadOnlyList<StorageFile> files;
             files = await fileOpenPicker.PickMultipleFilesAsync();
             if (files != null || files.Count != 0)
             {
-                List<StorageFile> distinctFiles = files.Where(a => !pickedFiles.Select(x=>x.SourceFile).ToList().Contains(a)).ToList();
-                List<AssignmentData> assignmentDataList = distinctFiles.Select(x=> new AssignmentData(x)).ToList();
+                List<StorageFile> distinctFiles = files.Where(a => !pickedFiles.Select(x => x.SourceFile).ToList().Contains(a)).ToList();
+                List<AssignmentData> assignmentDataList = distinctFiles.Select(x => new AssignmentData(x)).ToList();
                 await UpdateSelectedStackPanel(assignmentDataList);
                 pickedFiles.AddRange(assignmentDataList);
-                
+
             }
 
 
@@ -111,28 +107,23 @@ namespace Zadatak2.demo
                         await manager.RunAssignments();
                         SelectedStackPanel.Children.Clear();
                         pickedFiles.Clear();
-
-
-
                     }
-
                     else
                         PokreniObradu.IsEnabled = true;
                 }
                 else
                     PokreniObradu.IsEnabled = true;
             }
-
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if(firstTimeNavigated==false)
+            if (firstTimeNavigated == false)
             {
                 if (manager.Assignments.Count > 0)
                 {
-                    ContentDialog2 menu = new ContentDialog2();
+                    DetectedAssignmentsDialog menu = new DetectedAssignmentsDialog();
                     menu.UpdateStackPanel(manager.Assignments);
                     ContentDialogResult r = await menu.ShowAsync();
                     if (r == ContentDialogResult.Secondary)
@@ -140,16 +131,11 @@ namespace Zadatak2.demo
                         manager.AssignmentsList = menu.GetAllCheckedAssignments();
                         await InitializeStackPanel(manager.AssignmentsList.ToArray());
                         await manager.RunAssignments();
-
-
-
                     }
                     else
                         manager.AssignmentsList.Clear();
                 }
                 firstTimeNavigated = true;
-
-
             }
             //await InitializeStackPanel(manager.Assignments);
         }
@@ -159,7 +145,7 @@ namespace Zadatak2.demo
             foreach (Assignment download in assignments)
                 await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    MyUserControl2 downloadProgressControl = new MyUserControl2(download);
+                    Transformation downloadProgressControl = new Transformation(download);
                     downloadProgressControl.AssignmentStarted += DownloadProgressControl_AssignmentStarted;
                     downloadProgressControl.AssignmentPaused += DownloadProgressControl_AssignmentPaused; downloadProgressControl.AssignmentCancelled += DownloadProgressControl_AssignmentCancelled;
                     downloadProgressControl.AssignmentCompleted += DownloadProgressControl_AssignmentCompleted;
@@ -170,21 +156,14 @@ namespace Zadatak2.demo
 
         private async void DownloadProgressControl_AssignmentRemoved(Assignment a, object sender)
         {
-            await RemoveAssignment(a, sender as MyUserControl2);
+            await RemoveAssignment(a, sender as Transformation);
         }
 
         private async void DownloadProgressControl_AssignmentCompleted(Assignment a, object sender)
         {
-           // await Task.Run(() =>
-           //{
-               if (manager.Assignments.All(a => (a.CurrentState == Assignment.AssignmentState.Done) || a.CurrentState == Assignment.AssignmentState.Error || a.CurrentState == Assignment.AssignmentState.Cancelled))
-                   PokreniObradu.IsEnabled = true;
+            if (manager.Assignments.All(a => (a.CurrentState == Assignment.AssignmentState.Done) || a.CurrentState == Assignment.AssignmentState.Error || a.CurrentState == Assignment.AssignmentState.Cancelled))
+                PokreniObradu.IsEnabled = true;
             await ToastsSender.NotifyUser(a);
-
-
-
-           //});
-            
         }
 
         private async void DownloadProgressControl_AssignmentCancelled(Assignment a, object sender)
@@ -202,16 +181,17 @@ namespace Zadatak2.demo
         private async void DownloadProgressControl_AssignmentStarted(Assignment a, object sender)
         {
             if (a.Finished)
+            {
                 await a.Reset();
+                await a.Start();
+            }
             else if (a.IsPending)
                 await a.Start();
             else if (a.CurrentState == Assignment.AssignmentState.Paused)
                 await a.Resume();
-           
-
         }
 
-        private async Task RemoveAssignment(Assignment download, MyUserControl2 downloadProgressControl)
+        private async Task RemoveAssignment(Assignment download, Transformation downloadProgressControl)
         {
             if (!download.Finished)
                 await download.Cancel(true);
@@ -250,19 +230,16 @@ namespace Zadatak2.demo
     await ApplicationData.Current.LocalFolder.CreateFolderAsync("ProfilePhotoFolder",
         CreationCollisionOption.OpenIfExists);
 
-                StorageFile newPhoto =await photo.CopyAsync(destinationFolder, "CameraPhoto" + number +".jpg", NameCollisionOption.GenerateUniqueName);
+                StorageFile newPhoto = await photo.CopyAsync(destinationFolder, "CameraPhoto" + number + ".jpg", NameCollisionOption.GenerateUniqueName);
                 await photo.DeleteAsync();
                 AssignmentData assignmentData = new AssignmentData(newPhoto);
                 await UpdateSelectedStackPanel(assignmentData);
                 pickedFiles.Add(assignmentData);
-
-
             }
         }
 
         private async void Camera2Button_Click(object sender, RoutedEventArgs e)
         {
-
             bool sucess = await StartPreviewAsync();
 
             if (sucess)
@@ -339,7 +316,7 @@ namespace Zadatak2.demo
                 {
                     await StartPreviewAsync();
                 });
-               
+
             }
         }
         private async Task CleanupCameraAsync()
@@ -388,7 +365,7 @@ namespace Zadatak2.demo
         {
             var myPictures = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
             StorageFile file = await myPictures.SaveFolder.CreateFileAsync("photo.jpg", CreationCollisionOption.GenerateUniqueName);
-            
+
             using (var captureStream = new InMemoryRandomAccessStream())
             {
                 await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), captureStream);
@@ -409,20 +386,8 @@ namespace Zadatak2.demo
                 //await UpdateSelectedStackPanel(file);
                 await UpdateSelectedStackPanel(assignmentData);
                 pickedFiles.Add(assignmentData);
-                
+
             }
-            IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-            BitmapDecoder decoder1 = await BitmapDecoder.CreateAsync(stream);
-            SoftwareBitmap softwareBitmap = await decoder1.GetSoftwareBitmapAsync();
-
-            SoftwareBitmap softwareBitmapBGR8 = SoftwareBitmap.Convert(softwareBitmap,
-            BitmapPixelFormat.Bgra8,
-            BitmapAlphaMode.Premultiplied);
-
-            SoftwareBitmapSource bitmapSource = new SoftwareBitmapSource();
-            await bitmapSource.SetBitmapAsync(softwareBitmapBGR8);
-
-            ImagePrewiev.Source = bitmapSource;
 
         }
 
@@ -433,9 +398,9 @@ namespace Zadatak2.demo
             {
                 if (toggleSwitch.IsOn == true)
                 {
-                    bool sucess =await StartPreviewAsync();
-                    if(sucess)
-                    FotografisiButton.IsEnabled = true;
+                    bool sucess = await StartPreviewAsync();
+                    if (sucess)
+                        FotografisiButton.IsEnabled = true;
                 }
                 else
                 {
@@ -453,25 +418,25 @@ namespace Zadatak2.demo
             foreach (var assignmentData in assignmentDataList)
                 await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    MyUserControl1 selectedControl = new MyUserControl1(assignmentData);
+                    SelectedImage selectedControl = new SelectedImage(assignmentData);
                     selectedControl.FileRemoved += SelectedControl_FileRemoved;
                     SelectedStackPanel.Children.Add(selectedControl);
                 });
         }
         private async Task UpdateSelectedStackPanel(AssignmentData assignmentData)
         {
-            
-                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    MyUserControl1 selectedControl = new MyUserControl1(assignmentData);
-                    selectedControl.FileRemoved += SelectedControl_FileRemoved;
-                    SelectedStackPanel.Children.Add(selectedControl);
-                });
+
+            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                SelectedImage selectedControl = new SelectedImage(assignmentData);
+                selectedControl.FileRemoved += SelectedControl_FileRemoved;
+                SelectedStackPanel.Children.Add(selectedControl);
+            });
         }
 
         private async void SelectedControl_FileRemoved(int id, object sender)
         {
-            await RemoveSelected(id, sender as MyUserControl1);
+            await RemoveSelected(id, sender as SelectedImage);
         }
     }
 }

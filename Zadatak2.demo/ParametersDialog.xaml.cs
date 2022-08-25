@@ -17,10 +17,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Zadatak2.demo
 {
-    public sealed partial class ContentDialog2 : ContentDialog
+    public sealed partial class ParametersDialog : ContentDialog
     {
-        public ContentDialog2()
+        List<int> assignmentComboBoxOptions;
+        List<int> coresComboBoxOptions;
+        public ParametersDialog(int maxNumOfTasks, int numOfEnvironmentCores)
         {
+            assignmentComboBoxOptions = Enumerable.Range(1, maxNumOfTasks).ToList();
+            coresComboBoxOptions = Enumerable.Range(1, numOfEnvironmentCores).ToList();
             this.InitializeComponent();
         }
 
@@ -31,17 +35,12 @@ namespace Zadatak2.demo
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
-        public void UpdateStackPanel(IReadOnlyList<Assignment> list)
+
+        public (int, int) GetSelectedNumbers()
         {
-            foreach(var a in list)
-            {
-                
-                if (a!=null)
-                    DetectedStackPanel.Children.Add(new CheckBox() { Content = a.FileName, Tag = a, IsChecked = true });
-                
-            }
+            return (AssignentsComboBox.SelectedIndex + 1, CoresComboBox.SelectedIndex + 1);
         }
 
-        public List<Assignment> GetAllCheckedAssignments() => DetectedStackPanel.Children.OfType<CheckBox>().Where(x=> x.IsChecked==true).Select(x => (x.Tag as Assignment)).ToList();
+
     }
 }

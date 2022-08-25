@@ -95,8 +95,8 @@ namespace Zadatak2.demo
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            if(Manager!=null)
-            await Manager.Save();
+            if (Manager != null)
+                await Manager.Save();
             deferral.Complete();
         }
     }

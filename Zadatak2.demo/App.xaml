@@ -6,11 +6,12 @@
     <Application.Resources>
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
-                <!-- Other app resources here -->
-                
 
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
+        <!--<SolidColorBrush x:Key="ToggleSwitchCurtainBackgroundThemeBrush" Color="#FF00E078" />
+        <SolidColorBrush x:Key="ToggleSwitchCurtainPointerOverBackgroundThemeBrush" Color="#FF00E078" />
+        <SolidColorBrush x:Key="ToggleSwitchCurtainPressedBackgroundThemeBrush" Color="#FF00E078" />-->
 
     </Application.Resources>
 
